@@ -2,13 +2,17 @@ var fs = require("fs");
 
 var afterjsonFileName = "afterjson.txt"
 
+if (process.argv.length < 3) {
+    console.log("usage:   filter.js <tag name>");
+}
+
+var tag = process.argv[2];
+
 var beforejson = JSON.parse(fs.readFileSync("beforejson.json", "utf8"));
 var afterjson = fs.openSync(afterjsonFileName, "a");
 
-var qdomainArray = [];
-
 beforejson.forEach(function(e) {
-    if (e.tags.includes("qdomain")) {
-        fs.appendFileSync(afterjsonFileName, e.href+"\n");
+    if (e.tags.includes(tag)) {
+        fs.appendFileSync(afterjsonFileName, e.description + "   " + e.href+"\n");
     }
 });
